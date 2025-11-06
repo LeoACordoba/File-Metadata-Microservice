@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>File Metadata Microservice</title>
+</head>
+<body>
+  <h1>File Metadata Microservice</h1>
+
+  <form id="uploadForm" action="/api/fileanalyse" method="post" enctype="multipart/form-data">
+    <label for="upfile">Choose a file:</label>
+    <input type="file" id="upfile" name="upfile" required />
+    <button type="submit">Upload</button>
+  </form>
+
+  <pre id="result"></pre>
+
+  <script>
+    // Optional: show JSON response in page for easier manual testing
+    const form = document.getElementById('uploadForm');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const resp = await fetch('/api/fileanalyse', { method: 'POST', body: fd });
+      const data = await resp.json();
+      result.textContent = JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>
